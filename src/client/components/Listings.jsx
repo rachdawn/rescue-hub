@@ -1,8 +1,9 @@
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import ListingCard from "./ListingCard";
+import PropTypes from 'prop-types';
 
-function Listings() {
+function Listings( {listings} ) {
   return (
     <Container maxWidth="xl" disableGutters>
       <Box
@@ -13,7 +14,7 @@ function Listings() {
           justifyContent: "left",
           alignItems: "center",
           height: "3rem",
-         color: "rgb(239, 239, 238)",
+          color: "rgb(239, 239, 238)",
           textAlign: "center",
           m: 0,
           my: 2,
@@ -26,29 +27,36 @@ function Listings() {
       >
         <h2>Adoptable Dogs</h2>
       </Box>
-        <Box
-            sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: 3,
-            py: 3,
-            px: 6,
-            }}
-        >
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-        </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 3,
+          py: 3,
+          px: 6,
+        }}
+      >
+        {listings.length > 0 ? ( // Conditional rendering
+          listings.map((listing) => (
+            <ListingCard key={listing?.id} listing={listing} />
+          ))
+        ) : (
+          <div>No adoptable dogs available.</div> // Placeholder message
+        )}
+      </Box>
     </Container>
   );
 }
+
+Listings.propTypes = {
+  listings: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      // add other listing properties here if needed
+    })
+  ),
+};
 
 export default Listings;
